@@ -1,0 +1,8 @@
+embed-server --std-out=echo --admin-only=true --server-config=standalone-openshift.xml 
+
+jms-queue add --queue-address=executorQueue --entries=queue/executorQueue
+jms-queue add --queue-address=statusUpdateQueue --entries=queue/statusUpdateQueue
+jms-queue add --queue-address=packageDiscoveryQueue --entries=queue/packageDiscoveryQueue
+jms-topic add --topic-address=executorCancellation --entries=topic/executorCancellation
+
+stop-embedded-server
