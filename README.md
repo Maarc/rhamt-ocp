@@ -3,8 +3,6 @@ Builder for the Red Hat Application Migration Toolkit on OpenShift Container Pla
 
 # Usage
 
-1. Build and copy  "
-
+1. Build and copy "rhamt.ear"
 2. Start OCP (for example using the Red Hat Container Developer Toolkit aka. CDK)
-
 3. Execute "deploy.sh"
