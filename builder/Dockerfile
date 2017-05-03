@@ -10,7 +10,7 @@ RUN cat /opt/eap/bin/openshift-launch.sh.orig |grep -v standalone.sh > /opt/eap/
 RUN echo 'source ${JBOSS_HOME}/bin/inject.sh' >> /opt/eap/bin/openshift-launch.sh
 
 # Add updated "standalone.sh"
-RUN echo 'exec $JBOSS_HOME/bin/standalone.sh -P ${JBOSS_HOME}/standalone/configuration/eap.properties -c standalone-openshift.xml -bmanagement 127.0.0.1 $JBOSS_HA_ARGS ${JBOSS_MESSAGING_ARGS}' >> /opt/eap/bin/openshift-launch.sh
+RUN echo 'exec $JBOSS_HOME/bin/standalone.sh -c standalone-openshift.xml -bmanagement 127.0.0.1 $JBOSS_HA_ARGS ${JBOSS_MESSAGING_ARGS}' >> /opt/eap/bin/openshift-launch.sh
 
 USER 0
 RUN sed -i 's/cp -v /cp -av /' -- /usr/local/s2i/assemble

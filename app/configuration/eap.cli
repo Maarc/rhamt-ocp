@@ -5,4 +5,13 @@ jms-queue add --queue-address=statusUpdateQueue --entries=queues/statusUpdateQue
 jms-queue add --queue-address=packageDiscoveryQueue --entries=queues/packageDiscoveryQueue
 jms-topic add --topic-address=executorCancellation --entries=topics/executorCancellation
 
+/subsystem=security/security-domain=keycloak/:add
+/subsystem=security/security-domain=keycloak/authentication=classic/:add(login-modules=[{ "code" => "org.keycloak.adapters.jboss.KeycloakLoginModule","flag" => "required"}])
+/extension=org.keycloak.keycloak-adapter-subsystem/:add(module=org.keycloak.keycloak-adapter-subsystem)
+/subsystem=keycloak:add
+
+
+/subsystem=keycloak/secure-deployment=api.war:add(realm=rhamt, realm-public-key="${env.SSO_PUBLIC_KEY}", auth-server-url="${env.SSO_URL}", ssl-required="EXTERNAL", resource=rhamt-web, public-client=true)
+/subsystem=keycloak/secure-deployment=rhamt-web.war:add(realm=rhamt, realm-public-key="${env.SSO_PUBLIC_KEY}", auth-server-url="${env.SSO_URL}", ssl-required="EXTERNAL", resource=rhamt-web, public-client=true)
+
 stop-embedded-server

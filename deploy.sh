@@ -3,16 +3,20 @@
 OCP_PROJECT=rhamt
 APP=rhamt-web-console
 APP_DIR=app
-APP_EAR=${APP_DIR}/rhamt.ear
+SERVICES_WAR=${APP_DIR}/api.war
+UI_WAR=${APP_DIR}/rhamt-web.war
 
-# Checks if the "rhamt.ear" file has been added properly
-ls -al ${APP_EAR}
-rc=$?; if [[ $rc != 0 ]]; then echo "Missing deployment. Please build and copy to the application to ${APP_EAR}"; exit $rc; fi
+# Checks if the "api.war" file has been added properly
+ls -al ${SERVICES_WAR}
+rc=$?; if [[ $rc != 0 ]]; then echo "Missing deployment. Please build and copy api.war to to ${SERVICES_WAR}"; exit $rc; fi
+
+# Checks if the "rhamt-web.war" file has been added properly
+ls -al ${UI_WAR}
+rc=$?; if [[ $rc != 0 ]]; then echo "Missing deployment. Please build and copy rhamt-web.war to to ${UI_WAR}"; exit $rc; fi
 
 echo
 echo "Openshift project"
 echo "  -> Create Openshift project (${OCP_PROJECT})"
-oc login 10.1.2.2:8443 --username=openshift-dev --password=devel 2>&1 > /dev/null
 oc new-project ${OCP_PROJECT} 2>/dev/null > /dev/null
 sleep 1
 
