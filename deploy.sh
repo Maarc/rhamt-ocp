@@ -33,10 +33,28 @@ sleep 1
 oc create -n ${OCP_PROJECT} -f templates/sso-app-secret.json
 sleep 1
 
-echo "  -> Process template"
-# Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/eap/eap70-postgresql-persistent-s2i.json
-oc process -f templates/rhamt-template.json | oc create -n ${OCP_PROJECT} -f -
+echo "  -> Process SSO template"
+# Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/sso/sso71-postgresql-persistent.json
+oc process -f templates/sso70-postgresql-persistent.json \
+    -p SSO_ADMIN_USERNAME=admin \
+    -p SSO_ADMIN_PASSWORD=admin \
+    -p SSO_SERVICE_USERNAME=rhamt \
+    -p SSO_SERVICE_PASSWORD=rhamt \
+    -p SSO_REALM=rhamt \
+    -p HTTPS_NAME=jboss \
+    -p HTTPS_PASSWORD=mykeystorepass | oc create -n ${OCP_PROJECT} -f -
 sleep 1
+
+oc get endpoints
+
+echo "  -> Process RHAMT template"
+# Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/eap/eap70-postgresql-persistent-s2i.json
+oc process -f templates/rhamt-template.json \
+    -p SSO_URL=http://sso:8080/auth \
+    -p SSO_REALM=rhamt \
+    -p SSO_USERNAME=rhamt \
+    -p SSO_PASSWORD=rhamt | oc create -n ${OCP_PROJECT} -f -
+sleep 60
 
 echo
 echo "Build images"

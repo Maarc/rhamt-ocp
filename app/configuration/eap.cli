@@ -1,20 +1,8 @@
-embed-server --std-out=echo --admin-only=true --server-config=standalone-openshift.xml 
+embed-server --std-out=echo --admin-only=true --server-config=standalone-openshift.xml
 
 jms-queue add --queue-address=executorQueue --entries=queues/executorQueue
 jms-queue add --queue-address=statusUpdateQueue --entries=queues/statusUpdateQueue
 jms-queue add --queue-address=packageDiscoveryQueue --entries=queues/packageDiscoveryQueue
 jms-topic add --topic-address=executorCancellation --entries=topics/executorCancellation
-
-/subsystem=security/security-domain=keycloak/:add
-/subsystem=security/security-domain=keycloak/authentication=classic/:add(login-modules=[{ "code" => "org.keycloak.adapters.jboss.KeycloakLoginModule","flag" => "required"}])
-/extension=org.keycloak.keycloak-adapter-subsystem/:add(module=org.keycloak.keycloak-adapter-subsystem)
-/subsystem=keycloak:add
-
-
-/system-property=keycloak.server.url:add(value="http://localhost:8280/auth")
-/system-property=keycloak.realm.public.key:add(value="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgX0rKU6uFYoJWvCr1ipJMcSSYtVgLqGX9atMMFfsFMJRSAsMAg8cL4dH2vA+rnoZ7MFYjAZjyt2NjMrtBeYBN/ARIyv8HNnj2BQkv074fGmbdVelXhOJshFRlpeKCqxa2tc507RcxNa3mpWZ1ppmtHAQqIcCEjaeE0sowl89v07Bw3J1Pg7QPCPbuhJifSPIM8eM2VswW2ZRqOw8A+R1ObqQbCdCd/skfGQ7H3fHG4YbC7StilziSwtqSOc1xuhl2loC0zpHiGYZeprB1eANhzdsUZvrpukmhwQlVA8yuf5PA1KzqsJsLeKfcjbG9OYUMImi/WuEzl6kmHecEB6RnQIDAQAB")
-
-/subsystem=keycloak/secure-deployment=api.war:add(realm=rhamt, realm-public-key="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgX0rKU6uFYoJWvCr1ipJMcSSYtVgLqGX9atMMFfsFMJRSAsMAg8cL4dH2vA+rnoZ7MFYjAZjyt2NjMrtBeYBN/ARIyv8HNnj2BQkv074fGmbdVelXhOJshFRlpeKCqxa2tc507RcxNa3mpWZ1ppmtHAQqIcCEjaeE0sowl89v07Bw3J1Pg7QPCPbuhJifSPIM8eM2VswW2ZRqOw8A+R1ObqQbCdCd/skfGQ7H3fHG4YbC7StilziSwtqSOc1xuhl2loC0zpHiGYZeprB1eANhzdsUZvrpukmhwQlVA8yuf5PA1KzqsJsLeKfcjbG9OYUMImi/WuEzl6kmHecEB6RnQIDAQAB", auth-server-url="http://localhost:8280/auth", ssl-required="EXTERNAL", resource=rhamt-web, public-client=true)
-/subsystem=keycloak/secure-deployment=rhamt-web.war:add(realm=rhamt, realm-public-key="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgX0rKU6uFYoJWvCr1ipJMcSSYtVgLqGX9atMMFfsFMJRSAsMAg8cL4dH2vA+rnoZ7MFYjAZjyt2NjMrtBeYBN/ARIyv8HNnj2BQkv074fGmbdVelXhOJshFRlpeKCqxa2tc507RcxNa3mpWZ1ppmtHAQqIcCEjaeE0sowl89v07Bw3J1Pg7QPCPbuhJifSPIM8eM2VswW2ZRqOw8A+R1ObqQbCdCd/skfGQ7H3fHG4YbC7StilziSwtqSOc1xuhl2loC0zpHiGYZeprB1eANhzdsUZvrpukmhwQlVA8yuf5PA1KzqsJsLeKfcjbG9OYUMImi/WuEzl6kmHecEB6RnQIDAQAB", auth-server-url="http://localhost:8280/auth", ssl-required="EXTERNAL", resource=rhamt-web, public-client=true)
 
 stop-embedded-server
