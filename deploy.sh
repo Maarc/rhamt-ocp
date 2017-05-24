@@ -58,7 +58,7 @@ sleep 1
 
 echo "  -> Process RHAMT template"
 # Template adapted from https://github.com/jboss-openshift/application-templates/blob/master/eap/eap70-postgresql-persistent-s2i.json
-oc process -f templates/rhamt-template.json | oc create -n ${OCP_PROJECT} -f -
+oc process -f templates/rhamt-template.json -p POSTGRESQL_MAX_CONNECTIONS=200 | oc create -n ${OCP_PROJECT} -f -
 
 echo
 echo "Build images"
